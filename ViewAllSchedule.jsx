@@ -86,38 +86,9 @@ const ScheduleList = () => {
    if (error) return <p>Error fetching schedules: {error.message}</p>;
 
    return (
+
       <div>
          <h1>All Schedules</h1>
-         {editMode && currentSchedule && (
-            <div>
-               <h2>Edit Schedule</h2>
-               <form onSubmit={handleSubmit}>
-                  <label>  Total Amount:
-                     <input type="number" name="total_amount" value={formData.total_amount} onChange={handleInputChange}  required />
-                  </label>
-                  <br />
-                  <label> Schedule Amount:
-                     <input type="number" name="schedule_amount"  value={formData.schedule_amount} onChange={handleInputChange} required />
-                  </label>
-                  <br />
-                  <label>
-                     Payment Due Date:
-                     <input  type="date" name="payment_due_date" value={formData.payment_due_date} onChange={handleInputChange}  required/>
-                  </label>
-                  <br />
-                  <label>Is Paid:
-                     <input type="checkbox"  name="is_paid"  checked={formData.is_paid}  onChange={handleInputChange}/>
-                  </label>
-                  <br />
-                  <label> Payment Date:
-                     <input type="date" name="payment_date" value={formData.payment_date}  onChange={handleInputChange} />
-                  </label>
-                  <br />
-                  <button type="submit">Update</button>
-                  <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
-               </form>
-            </div>
-         )}
          <table style={{ borderCollapse: 'collapse', width: '100%' }}>
             <thead>
                <tr>

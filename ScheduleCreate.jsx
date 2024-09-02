@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './ScheduleCreate.css';
+
 function ScheduleCreate(){
    const [project_id, setProjectId] = useState('');
    const [total_amount, setTotalAmount] = useState('');

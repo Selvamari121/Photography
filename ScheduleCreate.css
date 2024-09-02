@@ -1,0 +1,63 @@
+.container {
+   max-width: 600px;
+   margin: 0 auto;
+   padding: 20px;
+}
+
+h1 {
+   text-align: center;
+   margin-bottom: 20px;
+}
+
+form {
+   display: flex;
+   flex-direction: column;
+}
+
+.input-group {
+   margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="date"] {
+   width: 500px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+   margin-right: 10px;
+}
+
+button {
+   background-color: #4CAF50; /* Green */
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin: 10px 5px;
+   cursor: pointer;
+   border-radius: 4px;
+}
+
+button[type="view"] {
+   background-color: #2196F3; /* Blue */
+}
+
+button:hover {
+   background-color: #45a049; /* Darker green */
+}
+
+button[type="view"]:hover {
+   background-color: #0b7dda; /* Darker blue */
+}
+
+.error-message {
+   color: red;
+   margin-top: 15px;
+}
