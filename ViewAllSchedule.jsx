@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 const ScheduleList = () => {
    const [schedules, setSchedules] = useState([]);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
-   const [editMode, setEditMode] = useState(false);
-   const [currentSchedule, setCurrentSchedule] = useState(null);
-   const [formData, setFormData] = useState({
-      total_amount: '',
-      schedule_amount: '',
-      payment_due_date: '',
-      is_paid: false,
-      payment_date: ''
-   });
+   const navigate = useNavigate();
+   
 
    useEffect(() => {
       const fetchSchedules = async () => {
@@ -31,56 +26,19 @@ const ScheduleList = () => {
 
       fetchSchedules();
    }, []);
-
-   const onEdit = (schedule) => {
-      setCurrentSchedule(schedule);
-      setFormData({
-         total_amount: schedule.total_amount,
-         schedule_amount: schedule.schedule_amount,
-         payment_due_date: schedule.payment_due_date,
-         is_paid: schedule.is_paid,
-         payment_date: schedule.payment_date
-      });
-      setEditMode(true);
-   };
-
-   const handleInputChange = (e) => {
-      const { name, value, type, checked } = e.target;
-      setFormData({
-         ...formData,
-         [name]: type === 'checkbox' ? checked : value
-      });
-   };
-
-   const handleSubmit = async (e) => {
-      e.preventDefault();
+   const onDelete = async (schedule_id) => {
       try {
-         await axios.put(`http://localhost:8080/schedule/edit/${currentSchedule.id}`, formData);
-         setSchedules(schedules.map(schedule => 
-            schedule.id === currentSchedule.id ? { ...schedule, ...formData } : schedule
-         ));
-         setEditMode(false);
-         setCurrentSchedule(null);
-         setFormData({
-            total_amount: '',
-            schedule_amount: '',
-            payment_due_date: '',
-            is_paid: false,
-            payment_date: ''
-         });
-      } catch (err) {
-         console.error('Error updating schedule:', err);
-      }
-   };
 
-   const onDelete = async (id) => {
-      try {
-         await axios.delete(`http://localhost:8080/schedule/delete/${id}`);
-         setSchedules(schedules.filter(schedule => schedule.id !== id));
+         await axios.delete(`http://localhost:8080/schedule/delete/${schedule_id}`);
+         setSchedules(schedules.filter(schedule => schedule.schedule_id !== schedule_id));
       } catch (err) {
          console.error('Error deleting schedule:', err);
       }
    };
+
+   const onEdit = (schedule_id) => {
+      navigate(`/create/${schedule_id}`);
+   }   
 
    if (loading) return <p>Loading...</p>;
    if (error) return <p>Error fetching schedules: {error.message}</p>;
@@ -102,17 +60,17 @@ const ScheduleList = () => {
             </thead>
             <tbody>
                {schedules.map(schedule => (
-                  <tr key={schedule.id}>
+                  <tr key={schedule.schedule_id}>
                      <td style={{ border: '1px solid black', padding: '8px' }}>{schedule.total_amount}</td>
                      <td style={{ border: '1px solid black', padding: '8px' }}>{schedule.schedule_amount}</td>
                      <td style={{ border: '1px solid black', padding: '8px' }}>{schedule.payment_due_date}</td>
                      <td style={{ border: '1px solid black', padding: '8px' }}>{schedule.is_paid ? 'Yes' : 'No'}</td>
                      <td style={{ border: '1px solid black', padding: '8px' }}>{schedule.payment_date}</td>
                      <td style={{ border: '1px solid black', padding: '8px' }}>
-                        <button onClick={() => onEdit(schedule)} style={{ marginRight: '8px' }}>
+                        <button onClick={() => onEdit(schedule.schedule_id, schedule)} style={{ marginRight: '8px' }}>
                            <FontAwesomeIcon icon={faEdit} />
                         </button>
-                        <button onClick={() => onDelete(schedule.id)}>
+                        <button onClick={() => onDelete(schedule.schedule_id)}>
                            <FontAwesomeIcon icon={faTrashAlt} />
                         </button>
                     </td>

@@ -11,6 +11,7 @@ function App() {
               <Route path="/" element={<Convert />} />
                 <Route path="/create" element={<ScheduleCreate />} />
                 <Route path="/view" element={<ViewAllSchedule />} />
+                <Route path="/create/:schedule_id" element={<ScheduleCreate />} />
             </Routes>
         </Router>
     );
